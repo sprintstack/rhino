@@ -78,7 +78,7 @@ public class Global extends ImporterTopLevel
     private boolean sealedStdLib = false;
     boolean initialized;
     private QuitAction quitAction;
-    private String[] prompts = { "js> ", "  > " };
+    private String[] prompts = { "> ", "  > " };
     private HashMap<String,String> doctestCanonicalizations;
 
     public Global()

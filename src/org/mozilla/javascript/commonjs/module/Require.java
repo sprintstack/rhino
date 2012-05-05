@@ -166,7 +166,7 @@ public class Require extends BaseFunction
      * @param scope the scope where the require() function is to be installed.
      */
     public void install(Scriptable scope) {
-        ScriptableObject.putProperty(scope, "require", this);
+        ScriptableObject.putProperty(scope, "nativeRequire", this);
     }
 
     public Object call(Context cx, Scriptable scope, Scriptable thisObj,
@@ -174,7 +174,7 @@ public class Require extends BaseFunction
     {
         if(args == null || args.length < 1) {
             throw ScriptRuntime.throwError(cx, scope,
-                    "require() needs one argument");
+                    "nativeRequire() needs one argument");
         }
 
         String id = (String)Context.jsToJava(args[0], String.class);
@@ -183,7 +183,7 @@ public class Require extends BaseFunction
             if (!(thisObj instanceof ModuleScope)) {
                 throw ScriptRuntime.throwError(cx, scope,
                         "Can't resolve relative module ID \"" + id +
-                                "\" when require() is used outside of a module");
+                                "\" when nativeRequire() is used outside of a module");
             }
 
             ModuleScope moduleScope = (ModuleScope) thisObj;
@@ -215,7 +215,7 @@ public class Require extends BaseFunction
 
     public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
         throw ScriptRuntime.throwError(cx, scope,
-                "require() can not be invoked as a constructor");
+                "nativeRequire() can not be invoked as a constructor");
     }
 
     private Scriptable getExportedModuleInterface(Context cx, String id,
@@ -373,7 +373,7 @@ public class Require extends BaseFunction
 
     @Override
     public String getFunctionName() {
-        return "require";
+        return "nativeRequire";
     }
 
     @Override

@@ -486,7 +486,6 @@ public class Main
             PrintStream ps = global.getErr();
             if (filename == null) {
                 // print implementation version
-                ps.println(cx.getImplementationVersion());
             }
 
             String charEnc = shellContextFactory.getCharacterEncoding();
