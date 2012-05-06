@@ -75,6 +75,7 @@ import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.SecurityController;
+import org.mozilla.javascript.commonjs.module.Bootstrap;
 import org.mozilla.javascript.commonjs.module.ModuleScope;
 import org.mozilla.javascript.commonjs.module.Require;
 import org.mozilla.javascript.tools.SourceReader;
@@ -107,6 +108,7 @@ public class Main
     static Require require;
     private static SecurityProxy securityImpl;
     private final static ScriptCache scriptCache = new ScriptCache(32);
+    private static Bootstrap bootstrap;
 
     static {
         global.initQuitAction(new IProxy(IProxy.SYSTEM_EXIT));
@@ -153,6 +155,11 @@ public class Main
             }
             throw Kit.codeBug();
         }
+    }
+
+
+    public static void setBootstrap(String script) {
+        bootstrap = new Bootstrap(script);
     }
 
     /**
@@ -398,8 +405,8 @@ public class Main
                 if (modulePath == null) {
                     modulePath = new ArrayList<String>();
                 }
-                modulePath.add(args[i]);
                 useRequire = true;
+                modulePath.add(args[i]);
                 continue;
             }
             if (arg.equals("-w")) {
@@ -469,6 +476,8 @@ public class Main
             "Can not load security support: "+exObj), exObj);
     }
 
+
+
     /**
      * Evaluate JavaScript source.
      *
@@ -484,9 +493,6 @@ public class Main
         if (filename == null || filename.equals("-")) {
             Scriptable scope = getShellScope();
             PrintStream ps = global.getErr();
-            if (filename == null) {
-                // print implementation version
-            }
 
             String charEnc = shellContextFactory.getCharacterEncoding();
             if(charEnc == null)
