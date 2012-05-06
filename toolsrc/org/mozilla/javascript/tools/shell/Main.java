@@ -131,11 +131,10 @@ public class Main
         {
             this.type = type;
         }
-
         public Object run(Context cx)
         {
             if (useRequire) {
-                require = global.installRequire(cx, modulePath, sandboxed);
+                require = global.installRequire(cx, modulePath, sandboxed, bootstrap.getScript(cx));
             }
             if (type == PROCESS_FILES) {
                 processFiles(cx, args);
@@ -300,6 +299,7 @@ public class Main
      */
     public static String[] processOptions(String args[])
     {
+        useRequire = true;
         String usageError;
         goodUsage: for (int i = 0; ; ++i) {
             if (i == args.length) {
@@ -493,6 +493,8 @@ public class Main
         if (filename == null || filename.equals("-")) {
             Scriptable scope = getShellScope();
             PrintStream ps = global.getErr();
+
+            bootstrap.getScript(cx).exec(cx, scope);
 
             String charEnc = shellContextFactory.getCharacterEncoding();
             if(charEnc == null)

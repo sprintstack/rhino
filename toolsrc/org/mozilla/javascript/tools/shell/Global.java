@@ -161,8 +161,9 @@ public class Global extends ImporterTopLevel
     }
 
     public Require installRequire(Context cx, List<String> modulePath,
-                                  boolean sandboxed) {
+                                  boolean sandboxed, Script bootstrap) {
         RequireBuilder rb = new RequireBuilder();
+        rb.setPreExec(bootstrap);
         rb.setSandboxed(sandboxed);
         List<URI> uris = new ArrayList<URI>();
         if (modulePath != null) {
