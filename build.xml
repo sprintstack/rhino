@@ -356,6 +356,10 @@
     </java>
   </target>
 
+  <target name="run" depends="jar">
+    <java jar="${jarfile}" fork="true"/>
+  </target>
+
   <target name="help" depends="properties">
 <echo>The following targets are available with this build file:
 
