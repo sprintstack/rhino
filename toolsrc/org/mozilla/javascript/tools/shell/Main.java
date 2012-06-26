@@ -134,7 +134,10 @@ public class Main
         public Object run(Context cx)
         {
             if (useRequire) {
-                require = global.installRequire(cx, modulePath, sandboxed, bootstrap.getScript(cx));
+                if (bootstrap == null)
+                    System.err.println("No module bootstrap specified.");
+                else
+                    require = global.installRequire(cx, modulePath, sandboxed, bootstrap.getScript(cx));
             }
             if (type == PROCESS_FILES) {
                 processFiles(cx, args);
@@ -494,7 +497,7 @@ public class Main
             Scriptable scope = getShellScope();
             PrintStream ps = global.getErr();
 
-            bootstrap.getScript(cx).exec(cx, scope);
+            if (bootstrap != null) bootstrap.getScript(cx).exec(cx, scope);
 
             String charEnc = shellContextFactory.getCharacterEncoding();
             if(charEnc == null)
